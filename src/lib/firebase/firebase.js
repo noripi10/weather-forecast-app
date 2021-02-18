@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { Alert } from 'react-native';
 import Env from './Env.json';
 
 if (!firebase.apps.length) {
@@ -14,11 +15,21 @@ export const signInAnonymous = async () => {
 };
 
 export const registerWithEmail = async (email, password) => {
-	await auth.createUserWithEmailAndPassword(email, password);
+	try {
+		await auth.createUserWithEmailAndPassword(email, password);
+	} catch (err) {
+		console.log({ err });
+		Alert.alert('認証エラー', 'Emailアドレスまたはパスワードを確認して下さい');
+	}
 };
 
 export const loginWithEmail = async (email, password) => {
-	await auth.signInWithEmailAndPassword(email, password);
+	try {
+		await auth.signInWithEmailAndPassword(email, password);
+	} catch (err) {
+		console.log({ err });
+		Alert.alert('認証エラー', 'Emailアドレスまたはパスワードを確認して下さい');
+	}
 };
 
 export const linkUserEmailPassword = async (email, password) => {

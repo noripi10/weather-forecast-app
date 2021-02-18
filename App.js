@@ -1,7 +1,7 @@
-import { ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { AuthUserProvider } from './src/lib/AuthUserProvider';
+import { ThemeProvider } from './src/lib/provider/ThemeProvider';
+import { AuthUserProvider } from './src/lib/provider/AuthUserProvider';
 import { RouteNavigator } from './src/navigation/RouteNavigator';
 
 export default function App() {

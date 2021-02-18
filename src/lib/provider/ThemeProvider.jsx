@@ -6,8 +6,8 @@ export const ThemeProvider = ({ children }) => {
 	const [theme, setTheme] = useState('default');
 
 	return (
-		<ThemeProvider.Provider value={{ theme, setTheme }}>
+		<ThemeContext.Provider value={{ theme, setTheme }}>
 			{children}
-		</ThemeProvider.Provider>
+		</ThemeContext.Provider>
 	);
 };

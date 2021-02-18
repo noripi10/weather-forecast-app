@@ -7,8 +7,8 @@ import {
 import { AppNavigator } from './AppNavigator';
 import { AuthNavigator } from './AuthNavigator';
 
-import { AuthUserContext } from '../lib/AuthUserProvider';
-import { ThemeContext } from '../lib/ThemeProvider';
+import { AuthUserContext } from '../lib/provider/AuthUserProvider';
+import { ThemeContext } from '../lib/provider/ThemeProvider';
 
 import { auth } from '../lib/firebase/firebase';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';

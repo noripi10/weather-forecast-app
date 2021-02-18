@@ -5,6 +5,7 @@ import LottieView from 'lottie-react-native';
 import { Text } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { signInAnonymous } from '../lib/firebase/firebase';
+import colorList from '../lib/colorList';
 
 export const WelcomeScreen = ({}) => {
 	const theme = useTheme();
@@ -18,7 +19,7 @@ export const WelcomeScreen = ({}) => {
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
 				<Text style={{ color: theme.colors.text }} h4>
-					Welcome Weather Forecast App
+					Myお天気予報
 				</Text>
 			</View>
 			<View style={styles.lottieContainer}>
@@ -33,18 +34,18 @@ export const WelcomeScreen = ({}) => {
 			</View>
 			<View style={styles.buttonContainer}>
 				<AppButton
-					title="LOGIN"
-					color="#7579e7"
+					title="ログイン"
 					onPress={() => navigation.navigate('Login')}
+					color={colorList.purple}
 				/>
 				<AppButton
-					title="USER REGISTER"
-					color="#7579e7"
+					title="ユーザー登録"
+					color={colorList.purple}
 					onPress={() => navigation.navigate('Register')}
 				/>
 				<AppButton
-					title="NO LOGIN"
-					color="#132B43"
+					title="ログインしない"
+					color={colorList.darkBlue}
 					onPress={() => handleSignInAnonymous()}
 				/>
 			</View>
