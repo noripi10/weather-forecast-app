@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 export const useLocationPermission = () => {
-	const [permission, setPermission] = useState(false);
+	const [permission, setPermission] = useState(null);
 
 	useEffect(() => {
 		(async () => {

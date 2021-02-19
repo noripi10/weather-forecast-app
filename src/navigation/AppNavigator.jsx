@@ -13,6 +13,7 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
 	return (
 		<Tab.Navigator
+			initialRouteName="Location"
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, size, color }) => {
 					let iconName;
@@ -21,7 +22,7 @@ const TabNavigator = () => {
 						iconName = 'search';
 					} else if (route.name === 'Location') {
 						iconName = 'map-pin';
-						size = 30;
+						size = 31;
 					} else if (route.name === 'User') {
 						iconName = 'user';
 					}
