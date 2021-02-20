@@ -26,7 +26,6 @@ export const SearchScreen = ({}) => {
 		setSearching(true);
 		const info = await getMarkerLocationInfo(currentCoordinate);
 
-		// console.log({ info });
 		setLocationInfo(info);
 		setSearching(false);
 	};
@@ -54,7 +53,7 @@ export const SearchScreen = ({}) => {
 		<SafeAreaView style={styles.container}>
 			<View style={styles.mapContainer}>
 				<MapView
-					style={StyleSheet.absoluteFillObject}
+					style={[StyleSheet.absoluteFillObject, { backgroundColor: '#fff' }]}
 					initialRegion={{
 						latitude: 35.2992145,
 						longitude: 136.6351822,
@@ -69,7 +68,11 @@ export const SearchScreen = ({}) => {
 							setCurrentCoordinate(event.nativeEvent.coordinate);
 						}}
 					>
-						<FontAwesome5Icon name="map-pin" color="yellow" size={36} />
+						<FontAwesome5Icon
+							name="map-pin"
+							color={dark ? 'blue' : 'black'}
+							size={36}
+						/>
 					</Marker>
 				</MapView>
 

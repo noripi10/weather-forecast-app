@@ -25,8 +25,6 @@ export const getLocationInfo = async () => {
 		const response = await fetch(uri);
 		const data = await response.json();
 		const { list } = data;
-		// console.log({ list });
-
 		const forecastTodayLast = list
 			.filter((item) => {
 				return (
@@ -79,7 +77,6 @@ export const getMarkerLocationInfo = async ({ latitude, longitude }) => {
 	const response = await fetch(uri);
 	const data = await response.json();
 	const { list } = data;
-	// console.log({ list });
 
 	const locationInfo = {
 		latitude,

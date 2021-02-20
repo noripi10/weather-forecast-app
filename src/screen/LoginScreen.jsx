@@ -16,8 +16,8 @@ import { FeatherIcon } from '../component/FeatherIcon';
 import { registerCheck } from '../util/common';
 
 export const LoginScreen = ({}) => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('hrnr1177@yahoo.co.jp');
+	const [password, setPassword] = useState('62486248hs');
 
 	const { colors } = useTheme();
 	const navigation = useNavigation();
@@ -40,6 +40,7 @@ export const LoginScreen = ({}) => {
 					leftIcon={<FeatherIcon name="mail" />}
 					paddingLeft={15}
 					keyboardType="email-address"
+					value={email}
 					onChangeText={(text) => setEmail(text)}
 					color={colors.text}
 				/>
@@ -50,7 +51,8 @@ export const LoginScreen = ({}) => {
 					inputContainer=""
 					paddingLeft={15}
 					secureTextEntry
-					keyboardType="default"
+					keyboardType="number-pad"
+					value={password}
 					onChangeText={(text) => setPassword(text)}
 					color={colors.text}
 				/>

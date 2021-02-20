@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"name": "weather-forecast-app",
+		"name": "My天気",
 		"slug": "weather-forecast-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
@@ -11,12 +11,22 @@
 			"backgroundColor": "#ffffff"
 		},
 		"updates": {
-			"fallbackToCacheTimeout": 0
+			"fallbackToCacheTimeout": 0,
+			"checkAutomatically": "ON_LOAD"
 		},
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.hiroapp.weatherforecast",
+			"buildNumber": "1.0.0",
+			"config": {
+				"googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
+			},
+			"infoPlist": {
+				"CFBundleDevelopmentRegion": "ja_JP",
+				"NSLocationWhenInUseUsageDescription": "現在地の天気を取得するために使用します"
+			}
 		},
 		"android": {
 			"adaptiveIcon": {

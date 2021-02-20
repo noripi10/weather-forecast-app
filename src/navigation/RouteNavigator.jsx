@@ -4,14 +4,15 @@ import {
 	DefaultTheme,
 	NavigationContainer,
 } from '@react-navigation/native';
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+
 import { AppNavigator } from './AppNavigator';
 import { AuthNavigator } from './AuthNavigator';
-
 import { AuthUserContext } from '../lib/provider/AuthUserProvider';
 import { ThemeContext } from '../lib/provider/ThemeProvider';
 
-import { auth } from '../lib/firebase';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { auth, getUserDocument } from '../lib/firebase';
+import { getStorage } from '../lib/storage';
 
 export const RouteNavigator = () => {
 	const { theme, setTheme } = useContext(ThemeContext);
@@ -21,11 +22,20 @@ export const RouteNavigator = () => {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((authUser) => {
 			if (authUser) {
-				// console.log({ authUser });
-				setUser(authUser);
+				getUserDocument(authUser.uid)
+					.then((userInfo) => {
+						setUser({ authUser, userInfo });
+					})
+					.catch((err) => {
+						setUser({ authUser, userInfo: {} });
+					});
 			} else {
 				setUser(null);
 			}
+		});
+
+		getStorage('theme').then((theme) => {
+			setTheme(theme || '');
 		});
 
 		return () => {
@@ -33,9 +43,13 @@ export const RouteNavigator = () => {
 		};
 	}, []);
 
+	const absoluteTheme = theme || scheme;
+
 	return (
 		<AppearanceProvider>
-			<NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+			<NavigationContainer
+				theme={absoluteTheme === 'dark' ? DarkTheme : DefaultTheme}
+			>
 				{user ? <AppNavigator /> : <AuthNavigator />}
 			</NavigationContainer>
 		</AppearanceProvider>
