@@ -52,23 +52,9 @@ export const SearchScreen = ({}) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View
-				style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}
-			>
-				{/* <SearchBar
-					cancelButtonTitle="キャンセル"
-					placeholder="都市名を検索"
-					lightTheme={!dark}
-					searchIcon={<TouchIcon name="search" />}
-					value={searchValue}
-					onChange={(text) => setSearchValue(text)}
-					containerStyle={{ width: '100%' }}
-				/> */}
-				{/* <Button title="検索" style={{ width: '20%' }} /> */}
-			</View>
 			<View style={styles.mapContainer}>
 				<MapView
-					style={styles.map}
+					style={StyleSheet.absoluteFillObject}
 					initialRegion={{
 						latitude: 35.2992145,
 						longitude: 136.6351822,
@@ -83,7 +69,7 @@ export const SearchScreen = ({}) => {
 							setCurrentCoordinate(event.nativeEvent.coordinate);
 						}}
 					>
-						<FontAwesome5Icon name="map-pin" color="yellow" size={48} />
+						<FontAwesome5Icon name="map-pin" color="yellow" size={36} />
 					</Marker>
 				</MapView>
 
@@ -155,8 +141,9 @@ const styles = StyleSheet.create({
 	mapContainer: {
 		flex: 1,
 		position: 'relative',
-		justifyContent: 'flex-start',
+		justifyContent: 'flex-end',
 		alignItems: 'center',
+		paddingBottom: 8,
 	},
 	map: {
 		flex: 0.55,
@@ -165,7 +152,7 @@ const styles = StyleSheet.create({
 	weatherCard: {
 		flex: 0.4,
 		borderRadius: 5,
-		width: '95%',
+		width: '97%',
 		// padding: 10,
 	},
 	cardItemContainer: {
