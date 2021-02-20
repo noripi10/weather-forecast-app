@@ -11,6 +11,12 @@ export const AppButton = (props) => {
 					styles.buttonStyle,
 					{ backgroundColor: props.color || 'blue' },
 				]}
+				containerStyle={{ margin: 0 }}
+				titleStyle={{
+					fontSize: props.fontSize,
+					padding: props.padding,
+					margin: 0,
+				}}
 			/>
 		</View>
 	);
