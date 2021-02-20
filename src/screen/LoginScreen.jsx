@@ -7,8 +7,8 @@ import {
 	TouchableOpacity,
 	Alert,
 } from 'react-native';
-import { loginWithEmail } from '../lib/firebase/firebase';
-import { useNavigation } from '@react-navigation/native';
+import { loginWithEmail } from '../lib/firebase';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
 import { FormInput } from '../component/FormInput';
@@ -19,6 +19,7 @@ export const LoginScreen = ({}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	const { colors } = useTheme();
 	const navigation = useNavigation();
 
 	const handleLogin = async () => {
@@ -40,6 +41,7 @@ export const LoginScreen = ({}) => {
 					paddingLeft={15}
 					keyboardType="email-address"
 					onChangeText={(text) => setEmail(text)}
+					color={colors.text}
 				/>
 				<FormInput
 					description="パスワード"
@@ -50,6 +52,7 @@ export const LoginScreen = ({}) => {
 					secureTextEntry
 					keyboardType="default"
 					onChangeText={(text) => setPassword(text)}
+					color={colors.text}
 				/>
 				<TouchableOpacity>
 					<Text style={{ color: colorList.grey3 }}>

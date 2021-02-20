@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, SafeAreaView, Alert } from 'react-native';
-import { registerWithEmail } from '../lib/firebase/firebase';
-import { useNavigation } from '@react-navigation/native';
+import { registerWithEmail } from '../lib/firebase';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { AppButton } from '../component/AppButton';
 import { FormInput } from '../component/FormInput';
 import { FeatherIcon } from '../component/FeatherIcon';
@@ -13,6 +13,7 @@ export const RegisterScreen = ({}) => {
 	const [password, setPassword] = useState('');
 	const [password2, setPassword2] = useState('');
 
+	const { colors } = useTheme();
 	const navigation = useNavigation();
 
 	const handleRegister = async () => {
@@ -34,6 +35,7 @@ export const RegisterScreen = ({}) => {
 					paddingLeft={15}
 					keyboardType="email-address"
 					onChangeText={(text) => setEmail(text)}
+					color={colors.text}
 				/>
 				<FormInput
 					description="パスワード"
@@ -44,6 +46,7 @@ export const RegisterScreen = ({}) => {
 					secureTextEntry
 					keyboardType="default"
 					onChangeText={(text) => setPassword(text)}
+					color={colors.text}
 				/>
 				<FormInput
 					description="パスワード再入力"
@@ -54,11 +57,12 @@ export const RegisterScreen = ({}) => {
 					secureTextEntry
 					keyboardType="default"
 					onChangeText={(text) => setPassword2(text)}
+					color={colors.text}
 				/>
 			</View>
 			<View style={styles.buttonContainer}>
 				<AppButton
-					title="ログイン"
+					title="登録"
 					color={colorList.purple}
 					disabled={!email || !password || !password2}
 					onPress={() => handleRegister()}

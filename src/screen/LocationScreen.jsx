@@ -4,33 +4,41 @@ import {
 	StyleSheet,
 	Text,
 	Modal,
-	TouchableOpacity,
 	Dimensions,
 	View,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useTheme } from '@react-navigation/native';
-import { Header, Card, Divider } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
 import LottieView from 'lottie-react-native';
+import * as Linking from 'expo-linking';
+import * as Updates from 'expo-updates';
 import moment from 'moment';
 
 import { useLocationPermission } from '../hooks/useLocationPermission';
 import { getLocationInfo } from '../lib/location';
+import { AppHeader } from '../component/Header';
 import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
-// import { ForecastItem } from '../component/ForecastItem';
 
 export const LocationScreen = ({}) => {
-	const [searchValue, setSearchValue] = useState('');
 	const [locationInfo, setLocationInfo] = useState(null);
 	const [searching, setSearching] = useState(false);
-	const { dark, colors } = useTheme();
+
+	const { colors } = useTheme();
 	const permission = useLocationPermission();
+
+	const openSetting = () => {
+		Linking.openURL('app-settings:');
+	};
+
+	const restartApp = async () => {
+		await Updates.reloadAsync();
+	};
 
 	const getGeoLocation = async () => {
 		setSearching(true);
 		const info = await getLocationInfo();
-
 		setLocationInfo(info);
 		setSearching(false);
 	};
@@ -74,30 +82,28 @@ export const LocationScreen = ({}) => {
 		return (
 			<View style={styles.noPermissionContainer}>
 				<Text style={{ fontSize: 18 }}>現在地を取得できませんでした</Text>
-				<AppButton
-					title="アプリ設定画面を開く"
-					onPress={() => getGeoLocation()}
-					color={colorList.grey3}
-				/>
+				<View style={styles.buttonContainer}>
+					<AppButton
+						title="アプリ設定画面を開く"
+						onPress={() => openSetting()}
+						color={colorList.grey3}
+					/>
+					<AppButton
+						title="再起動"
+						onPress={() => restartApp()}
+						color={colorList.primary}
+					/>
+				</View>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.container}>
-			<Header
-				centerContainerStyle={{ fontSize: 26, color: '#fff' }}
-				centerComponent={{
-					text: '現在地',
-					style: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-				}}
-				rightComponent={
-					<TouchableOpacity onPress={() => getGeoLocation()}>
-						<Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>
-							再取得
-						</Text>
-					</TouchableOpacity>
-				}
+			<AppHeader
+				title="現在地"
+				iconString="md-reload-outline"
+				rightPressHandle={getGeoLocation}
 			/>
 
 			<View style={styles.locationInfoContainer}>
@@ -105,6 +111,7 @@ export const LocationScreen = ({}) => {
 					{locationInfo && locationInfo.city}
 				</Text>
 			</View>
+
 			{locationInfo.forecastTodayLast && (
 				<View style={styles.currentWeatherContainer}>
 					<Card
@@ -198,13 +205,7 @@ export const LocationScreen = ({}) => {
 			)}
 
 			<Modal visible={searching} transparent={true}>
-				<View
-					style={{
-						flex: 1,
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
+				<View style={styles.modalContainer}>
 					<ActivityIndicator size="large" />
 					<Text>現在地取得中...</Text>
 				</View>
@@ -218,6 +219,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	buttonContainer: {
+		width: '100%',
+		padding: 20,
 	},
 	container: {
 		flex: 1,
@@ -250,12 +255,12 @@ const styles = StyleSheet.create({
 		height: '80%',
 	},
 	cardLeftItemContainer: {
-		width: '45%',
+		width: '50%',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	cardRightItemContainer: {
-		width: '55%',
+		width: '50%',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 		paddingLeft: 5,
@@ -291,5 +296,10 @@ const styles = StyleSheet.create({
 	clouds: {
 		width: '20%',
 		textAlign: 'center',
+	},
+	modalContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

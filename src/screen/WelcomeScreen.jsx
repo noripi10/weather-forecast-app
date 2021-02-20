@@ -4,7 +4,7 @@ import { AppButton } from '../component/AppButton';
 import LottieView from 'lottie-react-native';
 import { Text } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { signInAnonymous } from '../lib/firebase/firebase';
+import { signInAnonymous } from '../lib/firebase';
 import colorList from '../lib/colorList';
 
 export const WelcomeScreen = ({}) => {

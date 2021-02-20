@@ -3,11 +3,15 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Input } from 'react-native-elements';
 
 export const FormInput = (props) => {
-	const { description, placeholder, ...anotherProps } = props;
+	const { description, placeholder, color, ...anotherProps } = props;
 	return (
 		<View style={styles.container}>
 			<Text style={styles.description}>{description}</Text>
-			<Input {...anotherProps} placeholder={placeholder} />
+			<Input
+				style={{ color: color }}
+				{...anotherProps}
+				placeholder={placeholder}
+			/>
 		</View>
 	);
 };

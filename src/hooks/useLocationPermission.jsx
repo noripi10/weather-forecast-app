@@ -13,6 +13,8 @@ export const useLocationPermission = () => {
 				const { status: askStatus } = await Location.requestPermissionsAsync();
 				if (askStatus === 'granted') {
 					setPermission(true);
+				} else {
+					setPermission(false);
 				}
 			}
 		})();

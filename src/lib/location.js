@@ -1,7 +1,10 @@
 import * as Location from 'expo-location';
 import { Alert } from 'react-native';
+import Env from './Env.json';
 import sample_forecast from './sample_forecast.json';
 import moment from 'moment';
+
+const apiKey = Env.openWeatherConfig.apiKey;
 
 export const getLocationInfo = async () => {
 	try {
@@ -12,23 +15,35 @@ export const getLocationInfo = async () => {
 			longitude,
 		});
 
-		const forecastTodayLast = sample_forecast.list
+		const uri =
+			'http://api.openweathermap.org/data/2.5/forecast?lang=ja&lat=' +
+			latitude +
+			'&lon=' +
+			longitude +
+			'&appid=' +
+			apiKey;
+		const response = await fetch(uri);
+		const data = await response.json();
+		const { list } = data;
+		// console.log({ list });
+
+		const forecastTodayLast = list
 			.filter((item) => {
 				return (
-					moment().format('YYYYMMDD') ===
-						moment(item.dt_txt).format('YYYYMMDD') &&
+					// moment().format('YYYYMMDD') ===
+					// 	moment(item.dt_txt).format('YYYYMMDD') &&
 					moment() < moment(item.dt_txt)
 				);
 			})
 			.slice(0)[0];
 
-		const forecastTomorrow = sample_forecast.list
+		const forecastTomorrow = list
 			.filter((item) => {
 				return moment() < moment(item.dt_txt);
 			})
 			.slice(0)[0];
 
-		const forecastLater = sample_forecast.list.filter((item) => {
+		const forecastLater = list.filter((item) => {
 			return moment(forecastTomorrow.dt_txt) < moment(item.dt_txt);
 		});
 
@@ -53,11 +68,24 @@ export const getMarkerLocationInfo = async ({ latitude, longitude }) => {
 		latitude,
 		longitude,
 	});
+
+	const uri =
+		'http://api.openweathermap.org/data/2.5/forecast?lang=ja&lat=' +
+		latitude +
+		'&lon=' +
+		longitude +
+		'&appid=' +
+		apiKey;
+	const response = await fetch(uri);
+	const data = await response.json();
+	const { list } = data;
+	// console.log({ list });
+
 	const locationInfo = {
 		latitude,
 		longitude,
 		...reverseGeo[0],
-		forecastLater: sample_forecast.list,
+		forecastLater: list,
 	};
 	return locationInfo;
 };

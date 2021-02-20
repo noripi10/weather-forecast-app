@@ -11,5 +11,4 @@ web-build/
 
 # macOS
 .DS_Store
-src/screen/LoginScreen.jsx
-src/lib/firebase/Env.json
+src/lib/Env.json

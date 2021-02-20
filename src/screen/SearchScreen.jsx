@@ -80,7 +80,7 @@ export const SearchScreen = ({}) => {
 					]}
 				>
 					<Card.Title style={{ color: colors.text, textAlign: 'left' }}>
-						{`3時間ごとの天気   ${locationInfo && locationInfo.city}`}
+						{`3時間ごとの天気   ${(locationInfo && locationInfo.city) || ''}`}
 					</Card.Title>
 					<View
 						style={{
@@ -116,7 +116,7 @@ export const SearchScreen = ({}) => {
 						{locationInfo && locationInfo.forecastLater && (
 							<FlatList
 								data={locationInfo.forecastLater || []}
-								keyExtractor={(item) => item.dt_txt + Math.random().toString()}
+								keyExtractor={(item) => item.dt_txt}
 								renderItem={(item, index) => ForecastItem(item, index)}
 								ItemSeparatorComponent={() => (
 									<View>

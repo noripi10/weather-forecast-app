@@ -10,7 +10,7 @@ import { AuthNavigator } from './AuthNavigator';
 import { AuthUserContext } from '../lib/provider/AuthUserProvider';
 import { ThemeContext } from '../lib/provider/ThemeProvider';
 
-import { auth } from '../lib/firebase/firebase';
+import { auth } from '../lib/firebase';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
 export const RouteNavigator = () => {
