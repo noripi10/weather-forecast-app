@@ -1,31 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+	SafeAreaView,
+	View,
+	StyleSheet,
+	Text,
+	Image,
+	Alert,
+	Dimensions,
+} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '@react-navigation/native';
 import { Button, Card, Divider, SearchBar } from 'react-native-elements';
 import moment from 'moment';
 import { useLocationPermission } from '../hooks/useLocationPermission';
-import { TouchIcon } from '../component/TouchIcon';
-import { Dimensions } from 'react-native';
 import { AppButton } from '../component/AppButton';
 import { FlatList } from 'react-native-gesture-handler';
 import { getMarkerLocationInfo } from '../lib/location';
 import { FontAwesome5Icon } from '../component/FontAwesome5Icon';
+import colorList from '../lib/colorList';
 
 export const SearchScreen = ({}) => {
 	const [searching, setSearching] = useState(false);
 	const [locationInfo, setLocationInfo] = useState(null);
 	const [currentCoordinate, setCurrentCoordinate] = useState({
-		latitude: 35.2992145,
-		longitude: 136.6351822,
+		latitude: 35.7981063,
+		longitude: 136.4029144,
 	});
+	const preCoordinateRef = useRef(null);
 	const { dark, colors } = useTheme();
 	const permission = useLocationPermission();
 
 	const getMakerLocation = async () => {
+		if (preCoordinateRef.current) {
+			if (
+				currentCoordinate.latitude === preCoordinateRef.current.latitude &&
+				currentCoordinate.longitude === preCoordinateRef.current.longitude
+			) {
+				Alert.alert('前回検索結果と同じ位置です。');
+				return false;
+			}
+		}
+
 		setSearching(true);
 		const info = await getMarkerLocationInfo(currentCoordinate);
 
+		preCoordinateRef.current = currentCoordinate;
 		setLocationInfo(info);
 		setSearching(false);
 	};
@@ -36,6 +55,12 @@ export const SearchScreen = ({}) => {
 				<Text style={[styles.date, { color: colors.text }]}>
 					{moment(item.dt_txt).format('M/D (ddd) HH時')}
 				</Text>
+				<Image
+					style={{ width: 20, height: 20 }}
+					source={{
+						uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
+					}}
+				/>
 				<Text style={[styles.description, { color: colors.text }]}>
 					{item.weather[0].description}
 				</Text>
@@ -55,8 +80,8 @@ export const SearchScreen = ({}) => {
 				<MapView
 					style={[StyleSheet.absoluteFillObject, { backgroundColor: '#fff' }]}
 					initialRegion={{
-						latitude: 35.2992145,
-						longitude: 136.6351822,
+						latitude: 35.7981063,
+						longitude: 136.4029144,
 						latitudeDelta: 0.0922,
 						longitudeDelta: 0.0421,
 					}}
@@ -70,8 +95,8 @@ export const SearchScreen = ({}) => {
 					>
 						<FontAwesome5Icon
 							name="map-pin"
-							color={dark ? 'blue' : 'black'}
-							size={36}
+							color={dark ? colorList.primary : 'black'}
+							size={48}
 						/>
 					</Marker>
 				</MapView>
@@ -95,6 +120,7 @@ export const SearchScreen = ({}) => {
 					>
 						<AppButton
 							title="検索"
+							color={colorList.primary}
 							padding={0}
 							onPress={() => getMakerLocation()}
 						/>
@@ -108,6 +134,7 @@ export const SearchScreen = ({}) => {
 					>
 						<View style={styles.listTitle}>
 							<Text style={[styles.date, { color: colors.text }]}>日時</Text>
+							<View style={{ width: '5%' }}></View>
 							<Text style={[styles.description, { color: colors.text }]}>
 								天気
 							</Text>
@@ -179,21 +206,22 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		height: 20,
+		// paddingLeft: 8,
 	},
 	date: {
 		width: '30%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	description: {
 		width: '25%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	temp: {
 		width: '20%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	clouds: {
 		width: '20%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 });

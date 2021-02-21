@@ -20,6 +20,7 @@ import { getLocationInfo } from '../lib/location';
 import { AppHeader } from '../component/Header';
 import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
+import { Image } from 'react-native';
 
 export const LocationScreen = ({}) => {
 	const [locationInfo, setLocationInfo] = useState(null);
@@ -49,6 +50,12 @@ export const LocationScreen = ({}) => {
 				<Text style={[styles.date, { color: colors.text }]}>
 					{moment(item.dt_txt).format('M/D (ddd) HH時')}
 				</Text>
+				<Image
+					style={{ width: 20, height: 20 }}
+					source={{
+						uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
+					}}
+				/>
 				<Text style={[styles.description, { color: colors.text }]}>
 					{item.weather[0].description}
 				</Text>
@@ -130,11 +137,17 @@ export const LocationScreen = ({}) => {
 								<Text style={{ color: colors.text }}>
 									{locationInfo.forecastTodayLast.weather[0].description}
 								</Text>
-								<LottieView
+								{/* <LottieView
 									style={{ width: 100, height: 100 }}
 									loop
 									autoPlay
 									source={require('../../assets/weathers/4798-weather-snownight.json')}
+								/> */}
+								<Image
+									style={{ width: 100, height: 100 }}
+									source={{
+										uri: `http://openweathermap.org/img/wn/${locationInfo.forecastTodayLast.weather[0].icon}@2x.png`,
+									}}
 								/>
 							</View>
 							<View style={styles.cardRightItemContainer}>
@@ -177,6 +190,7 @@ export const LocationScreen = ({}) => {
 						>
 							<View style={styles.listTitle}>
 								<Text style={[styles.date, { color: colors.text }]}>日時</Text>
+								<View style={{ width: '5%' }}></View>
 								<Text style={[styles.description, { color: colors.text }]}>
 									天気
 								</Text>
@@ -280,22 +294,23 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		height: 20,
+		// paddingLeft: 8,
 	},
 	date: {
 		width: '30%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	description: {
 		width: '25%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	temp: {
 		width: '20%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	clouds: {
 		width: '20%',
-		textAlign: 'center',
+		textAlign: 'left',
 	},
 	modalContainer: {
 		flex: 1,

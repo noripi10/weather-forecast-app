@@ -16,8 +16,8 @@ import { FeatherIcon } from '../component/FeatherIcon';
 import { registerCheck } from '../util/common';
 
 export const LoginScreen = ({}) => {
-	const [email, setEmail] = useState('hrnr1177@yahoo.co.jp');
-	const [password, setPassword] = useState('62486248hs');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
 	const { colors } = useTheme();
 	const navigation = useNavigation();

@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"name": "My天気",
+		"name": "ウェザリス",
 		"slug": "weather-forecast-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
@@ -8,7 +8,7 @@
 		"splash": {
 			"image": "./assets/splash.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"backgroundColor": "#5aa0fc"
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0,
