@@ -19,34 +19,41 @@ import { getMarkerLocationInfo } from '../lib/location';
 import { FontAwesome5Icon } from '../component/FontAwesome5Icon';
 import colorList from '../lib/colorList';
 
+const gifuStation = {
+	latitude: 35.4095278,
+	longitude: 136.7564656,
+};
 export const SearchScreen = ({}) => {
-	const [searching, setSearching] = useState(false);
+	// const [searching, setSearching] = useState(false);
 	const [locationInfo, setLocationInfo] = useState(null);
-	const [currentCoordinate, setCurrentCoordinate] = useState({
-		latitude: 35.7981063,
-		longitude: 136.4029144,
-	});
+	const [currentCoordinate, setCurrentCoordinate] = useState(gifuStation);
 	const preCoordinateRef = useRef(null);
 	const { dark, colors } = useTheme();
 	const permission = useLocationPermission();
 
 	const getMakerLocation = async () => {
-		if (preCoordinateRef.current) {
-			if (
-				currentCoordinate.latitude === preCoordinateRef.current.latitude &&
-				currentCoordinate.longitude === preCoordinateRef.current.longitude
-			) {
-				Alert.alert('前回検索結果と同じ位置です。');
-				return false;
+		try {
+			if (preCoordinateRef.current) {
+				if (
+					currentCoordinate.latitude === preCoordinateRef.current.latitude &&
+					currentCoordinate.longitude === preCoordinateRef.current.longitude
+				) {
+					Alert.alert('前回検索と同じ位置です');
+					return false;
+				}
 			}
+
+			// setSearching(true);
+			const info = await getMarkerLocationInfo(currentCoordinate);
+
+			preCoordinateRef.current = { ...currentCoordinate, time: new Date() };
+			setLocationInfo(info);
+			// setSearching(false);
+		} catch (err) {
+			// console.log({ err });
+			// alert(JSON.stringify(err));
+			Alert.alert('検索エラー');
 		}
-
-		setSearching(true);
-		const info = await getMarkerLocationInfo(currentCoordinate);
-
-		preCoordinateRef.current = currentCoordinate;
-		setLocationInfo(info);
-		setSearching(false);
 	};
 
 	const ForecastItem = ({ item, index }) => {
@@ -78,12 +85,12 @@ export const SearchScreen = ({}) => {
 		<SafeAreaView style={styles.container}>
 			<View style={styles.mapContainer}>
 				<MapView
-					style={[StyleSheet.absoluteFillObject, { backgroundColor: '#fff' }]}
+					style={[StyleSheet.absoluteFill, { backgroundColor: '#fff' }]}
 					initialRegion={{
-						latitude: 35.7981063,
-						longitude: 136.4029144,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421,
+						latitude: 35.4005278,
+						longitude: 136.7564656,
+						latitudeDelta: 0.1,
+						longitudeDelta: 0.05,
 					}}
 				>
 					<Marker
@@ -118,12 +125,14 @@ export const SearchScreen = ({}) => {
 							top: -20,
 						}}
 					>
-						<AppButton
-							title="検索"
-							color={colorList.primary}
-							padding={0}
-							onPress={() => getMakerLocation()}
-						/>
+						{permission ? (
+							<AppButton
+								title="検索"
+								color={colorList.primary}
+								padding={0}
+								onPress={() => getMakerLocation()}
+							/>
+						) : null}
 					</View>
 					<Card.Divider />
 					<View
@@ -209,8 +218,9 @@ const styles = StyleSheet.create({
 		// paddingLeft: 8,
 	},
 	date: {
-		width: '30%',
+		width: '35%',
 		textAlign: 'left',
+		paddingLeft: 5,
 	},
 	description: {
 		width: '25%',
@@ -221,7 +231,7 @@ const styles = StyleSheet.create({
 		textAlign: 'left',
 	},
 	clouds: {
-		width: '20%',
+		width: '15%',
 		textAlign: 'left',
 	},
 });

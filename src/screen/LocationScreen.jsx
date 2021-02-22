@@ -297,8 +297,9 @@ const styles = StyleSheet.create({
 		// paddingLeft: 8,
 	},
 	date: {
-		width: '30%',
+		width: '35%',
 		textAlign: 'left',
+		paddingLeft: 5,
 	},
 	description: {
 		width: '25%',
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
 		textAlign: 'left',
 	},
 	clouds: {
-		width: '20%',
+		width: '15%',
 		textAlign: 'left',
 	},
 	modalContainer: {

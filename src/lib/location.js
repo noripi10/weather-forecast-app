@@ -62,27 +62,32 @@ export const getLocationInfo = async () => {
 };
 
 export const getMarkerLocationInfo = async ({ latitude, longitude }) => {
-	const reverseGeo = await Location.reverseGeocodeAsync({
-		latitude,
-		longitude,
-	});
+	try {
+		const reverseGeo = await Location.reverseGeocodeAsync({
+			latitude,
+			longitude,
+		});
 
-	const uri =
-		'http://api.openweathermap.org/data/2.5/forecast?lang=ja&lat=' +
-		latitude +
-		'&lon=' +
-		longitude +
-		'&appid=' +
-		apiKey;
-	const response = await fetch(uri);
-	const data = await response.json();
-	const { list } = data;
+		const uri =
+			'http://api.openweathermap.org/data/2.5/forecast?lang=ja&lat=' +
+			latitude +
+			'&lon=' +
+			longitude +
+			'&appid=' +
+			apiKey;
+		const response = await fetch(uri);
+		const data = await response.json();
+		const { list } = data;
 
-	const locationInfo = {
-		latitude,
-		longitude,
-		...reverseGeo[0],
-		forecastLater: list,
-	};
-	return locationInfo;
+		const locationInfo = {
+			latitude,
+			longitude,
+			...reverseGeo[0],
+			forecastLater: list,
+		};
+		return locationInfo;
+	} catch (err) {
+		alert({ err });
+		return false;
+	}
 };

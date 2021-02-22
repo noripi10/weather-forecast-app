@@ -34,9 +34,13 @@ export const RouteNavigator = () => {
 			}
 		});
 
-		getStorage('theme').then((theme) => {
-			setTheme(theme || '');
-		});
+		getStorage('theme')
+			.then((theme) => {
+				setTheme(theme || '');
+			})
+			.catch((err) => {
+				console.log({ err });
+			});
 
 		return () => {
 			unsubscribe();

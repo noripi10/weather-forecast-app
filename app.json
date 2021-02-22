@@ -17,9 +17,9 @@
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
 		"ios": {
-			"supportsTablet": true,
+			"supportsTablet": false,
 			"bundleIdentifier": "com.hiroapp.weatherforecast",
-			"buildNumber": "1.0.0",
+			"buildNumber": "1.0.2",
 			"config": {
 				"googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
 			},

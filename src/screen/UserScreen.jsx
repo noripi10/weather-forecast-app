@@ -12,6 +12,11 @@ import { AuthUserContext } from '../lib/provider/AuthUserProvider';
 import { ThemeContext } from '../lib/provider/ThemeProvider';
 import { setStorage } from '../lib/storage';
 
+// const testID = 'ca-app-pub-3940256099942544/2934735716';
+// const productionID = 'ca-app-pub-7379270123809470/7717398215';
+// // Is a real device and running in production.
+// const adUnitID = Constants.isDevice ? productionId : testID;
+
 export const UserScreen = ({}) => {
 	const { user, setUser } = useContext(AuthUserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
@@ -46,24 +51,19 @@ export const UserScreen = ({}) => {
 		console.log('banner error');
 	};
 
-	const testID = 'ca-app-pub-3940256099942544/2934735716';
-	const productionID = 'ca-app-pub-7379270123809470/7717398215';
-	// Is a real device and running in production.
-	const adUnitID = Constants.isDevice && !__DEV__ ? productionId : testID;
-
 	return (
 		<SafeAreaView style={styles.container}>
-			<AdMobBanner
-				bannerSize="largeBanner"
-				adUnitID={adUnitID}
-				servePersonalizedAds
-				onDidFailToReceiveAdWithError={bannerError}
-			/>
 			<View style={styles.settingContainer}>
 				<Text style={{ color: colors.text }}>ユーザー名</Text>
 				<Input
-					style={{ color: colors.text }}
-					containerStyle={{ width: '70%' }}
+					disabled
+					style={{
+						color: colors.text,
+						fontSize: 16,
+						textAlign: 'right',
+						paddingRight: 8,
+					}}
+					containerStyle={{ width: '90%' }}
 					value={user.userInfo && user.userInfo.userName}
 					onChangeText={(newName) => updateUserInfo('userName', newName)}
 				/>
@@ -87,6 +87,16 @@ export const UserScreen = ({}) => {
 					onPress={() => handleSignOut()}
 				/>
 			</View>
+			<AdMobBanner
+				bannerSize="fullBanner"
+				adUnitID={
+					__DEV__
+						? 'ca-app-pub-3940256099942544/2934735716' // テスト広告
+						: 'ca-app-pub-7379270123809470/7717398215'
+				}
+				servePersonalizedAds
+				onDidFailToReceiveAdWithError={bannerError}
+			/>
 		</SafeAreaView>
 	);
 };

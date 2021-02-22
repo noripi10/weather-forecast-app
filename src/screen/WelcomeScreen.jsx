@@ -19,7 +19,7 @@ export const WelcomeScreen = ({}) => {
 		<SafeAreaView style={styles.container}>
 			<View style={styles.headerContainer}>
 				<Text style={{ color: theme.colors.text }} h4>
-					Myお天気予報
+					ウェザリス
 				</Text>
 			</View>
 			<View style={styles.lottieContainer}>

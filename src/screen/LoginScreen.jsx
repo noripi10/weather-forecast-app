@@ -51,7 +51,7 @@ export const LoginScreen = ({}) => {
 					inputContainer=""
 					paddingLeft={15}
 					secureTextEntry
-					keyboardType="number-pad"
+					keyboardType="email-address"
 					value={password}
 					onChangeText={(text) => setPassword(text)}
 					color={colors.text}
