@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 5,
 	},
 	description: {
-		width: '25%',
+		width: '23%',
 		textAlign: 'left',
 	},
 	temp: {

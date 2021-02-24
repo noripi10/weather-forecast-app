@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
 	SafeAreaView,
 	View,
@@ -12,7 +12,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '@react-navigation/native';
 import { Button, Card, Divider, SearchBar } from 'react-native-elements';
 import moment from 'moment';
-import { useLocationPermission } from '../hooks/useLocationPermission';
+// import { useLocationPermission } from '../hooks/useLocationPermission';
 import { AppButton } from '../component/AppButton';
 import { FlatList } from 'react-native-gesture-handler';
 import { getMarkerLocationInfo } from '../lib/location';
@@ -23,13 +23,14 @@ const gifuStation = {
 	latitude: 35.4095278,
 	longitude: 136.7564656,
 };
+
 export const SearchScreen = ({}) => {
 	// const [searching, setSearching] = useState(false);
 	const [locationInfo, setLocationInfo] = useState(null);
 	const [currentCoordinate, setCurrentCoordinate] = useState(gifuStation);
 	const preCoordinateRef = useRef(null);
 	const { dark, colors } = useTheme();
-	const permission = useLocationPermission();
+	// const permission = useLocationPermission();
 
 	const getMakerLocation = async () => {
 		try {
@@ -102,7 +103,7 @@ export const SearchScreen = ({}) => {
 					>
 						<FontAwesome5Icon
 							name="map-pin"
-							color={dark ? colorList.primary : 'black'}
+							color={dark ? colorList.platform.ios.success : 'black'}
 							size={48}
 						/>
 					</Marker>
@@ -111,28 +112,32 @@ export const SearchScreen = ({}) => {
 				<Card
 					containerStyle={[
 						styles.weatherCard,
-						{ height: '65%', backgroundColor: colors.card },
+						{ height: '50%', backgroundColor: colors.card },
 					]}
 				>
-					<Card.Title style={{ color: colors.text, textAlign: 'left' }}>
+					<Card.Title
+						style={{
+							color: colors.text,
+							textAlign: 'left',
+						}}
+					>
 						{`3時間ごとの天気   ${(locationInfo && locationInfo.city) || ''}`}
 					</Card.Title>
 					<View
 						style={{
+							flex: 1,
 							position: 'absolute',
 							width: 100,
 							right: 0,
 							top: -20,
 						}}
 					>
-						{permission ? (
-							<AppButton
-								title="検索"
-								color={colorList.primary}
-								padding={0}
-								onPress={() => getMakerLocation()}
-							/>
-						) : null}
+						<AppButton
+							title="検索"
+							color={colorList.primary}
+							padding={0}
+							onPress={() => getMakerLocation()}
+						/>
 					</View>
 					<Card.Divider />
 					<View
@@ -152,7 +157,7 @@ export const SearchScreen = ({}) => {
 								降水確率
 							</Text>
 						</View>
-						{locationInfo && locationInfo.forecastLater && (
+						{locationInfo && locationInfo.forecastLater ? (
 							<FlatList
 								data={locationInfo.forecastLater || []}
 								keyExtractor={(item) => item.dt_txt}
@@ -163,6 +168,12 @@ export const SearchScreen = ({}) => {
 									</View>
 								)}
 							/>
+						) : (
+							<View style={styles.noListContainer}>
+								<Text style={{ color: colors.text }}>
+									検索したい地点にマーカーを動かし検索して下さい
+								</Text>
+							</View>
 						)}
 					</View>
 				</Card>
@@ -189,16 +200,12 @@ const styles = StyleSheet.create({
 		width: Dimensions.get('window').width,
 	},
 	weatherCard: {
-		flex: 0.4,
 		borderRadius: 5,
 		width: '97%',
-		// padding: 10,
 	},
 	cardItemContainer: {
 		position: 'relative',
 		flexDirection: 'row',
-		width: '100%',
-		height: '80%',
 	},
 	text: {
 		fontSize: 14,
@@ -212,6 +219,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	listTitle: {
+		flex: 1,
 		width: '100%',
 		flexDirection: 'row',
 		height: 20,
@@ -223,7 +231,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 5,
 	},
 	description: {
-		width: '25%',
+		width: '23%',
 		textAlign: 'left',
 	},
 	temp: {
@@ -233,5 +241,9 @@ const styles = StyleSheet.create({
 	clouds: {
 		width: '15%',
 		textAlign: 'left',
+	},
+	noListContainer: {
+		flex: 1,
+		alignSelf: 'center',
 	},
 });
