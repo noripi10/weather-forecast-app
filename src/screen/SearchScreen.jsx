@@ -112,7 +112,12 @@ export const SearchScreen = ({}) => {
 				<Card
 					containerStyle={[
 						styles.weatherCard,
-						{ height: '50%', backgroundColor: colors.card },
+						{
+							height: '42%',
+							backgroundColor: colors.card,
+							position: 'absolute',
+							bottom: 26,
+						},
 					]}
 				>
 					<Card.Title
