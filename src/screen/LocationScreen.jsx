@@ -202,9 +202,7 @@ export const LocationScreen = ({}) => {
 							{locationInfo.forecastLater && (
 								<FlatList
 									data={locationInfo.forecastLater || []}
-									keyExtractor={(item) =>
-										item.dt_txt + Math.random().toString()
-									}
+									keyExtractor={(item) => item.dt_txt}
 									renderItem={(item, index) => ForecastItem(item, index)}
 									ItemSeparatorComponent={() => (
 										<View>

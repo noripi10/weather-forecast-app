@@ -6,13 +6,11 @@ import {
 	Text,
 	Image,
 	Alert,
-	Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '@react-navigation/native';
-import { Button, Card, Divider, SearchBar } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
 import moment from 'moment';
-// import { useLocationPermission } from '../hooks/useLocationPermission';
 import { AppButton } from '../component/AppButton';
 import { FlatList } from 'react-native-gesture-handler';
 import { getMarkerLocationInfo } from '../lib/location';
@@ -30,7 +28,6 @@ export const SearchScreen = ({}) => {
 	const [currentCoordinate, setCurrentCoordinate] = useState(gifuStation);
 	const preCoordinateRef = useRef(null);
 	const { dark, colors } = useTheme();
-	// const permission = useLocationPermission();
 
 	const getMakerLocation = async () => {
 		try {
@@ -113,10 +110,7 @@ export const SearchScreen = ({}) => {
 					containerStyle={[
 						styles.weatherCard,
 						{
-							height: '42%',
 							backgroundColor: colors.card,
-							position: 'absolute',
-							bottom: 26,
 						},
 					]}
 				>
@@ -126,7 +120,7 @@ export const SearchScreen = ({}) => {
 							textAlign: 'left',
 						}}
 					>
-						{`3時間ごとの天気   ${(locationInfo && locationInfo.city) || ''}`}
+						{`3時間ごとの天気   ${!!locationInfo ? locationInfo.city : ''}`}
 					</Card.Title>
 					<View
 						style={{
@@ -191,30 +185,19 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'flex-start',
-		// alignItems: 'center',
 	},
 	mapContainer: {
 		flex: 1,
-		position: 'relative',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		paddingBottom: 8,
 	},
-	map: {
-		flex: 0.55,
-		width: Dimensions.get('window').width,
-	},
 	weatherCard: {
 		borderRadius: 5,
-		width: '97%',
-	},
-	cardItemContainer: {
-		position: 'relative',
-		flexDirection: 'row',
-	},
-	text: {
-		fontSize: 14,
-		paddingBottom: 5,
+		width: '98%',
+		height: '42%',
+		position: 'absolute',
+		bottom: 26,
 	},
 	renderItemContainer: {
 		width: '100%',
@@ -228,7 +211,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		height: 20,
-		// paddingLeft: 8,
 	},
 	date: {
 		width: '35%',

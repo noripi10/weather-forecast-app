@@ -53,6 +53,9 @@ export const RouteNavigator = () => {
 		<AppearanceProvider>
 			<NavigationContainer
 				theme={absoluteTheme === 'dark' ? DarkTheme : DefaultTheme}
+				onStateChange={(state) => {
+					// console.log({ state });
+				}}
 			>
 				{user ? <AppNavigator /> : <AuthNavigator />}
 			</NavigationContainer>

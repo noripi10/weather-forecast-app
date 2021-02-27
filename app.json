@@ -19,7 +19,7 @@
 		"ios": {
 			"supportsTablet": false,
 			"bundleIdentifier": "com.hiroapp.weatherforecast",
-			"buildNumber": "1.0.4",
+			"buildNumber": "1.0.5",
 			"config": {
 				"googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
 			},
