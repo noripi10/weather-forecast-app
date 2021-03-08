@@ -185,7 +185,7 @@ export const LocationScreen = ({}) => {
 						<View
 							style={[
 								styles.cardItemContainer,
-								{ height: '85%', flexDirection: 'column' },
+								{ height: '89%', flexDirection: 'column' },
 							]}
 						>
 							<View style={styles.listTitle}>
@@ -255,13 +255,13 @@ const styles = StyleSheet.create({
 		margin: 5,
 	},
 	weatherCard: {
-		width: Dimensions.get('window').width - 30,
+		width: Dimensions.get('window').width - 25,
 		height: '30%',
 		borderRadius: 5,
-		// margin: 10,
+		margin: 10,
 	},
 	cardItemContainer: {
-		position: 'relative',
+		// position: 'relative',
 		flexDirection: 'row',
 		width: '100%',
 		height: '80%',
@@ -273,9 +273,9 @@ const styles = StyleSheet.create({
 	},
 	cardRightItemContainer: {
 		width: '50%',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 		alignItems: 'flex-start',
-		paddingLeft: 5,
+		paddingLeft: 10,
 	},
 	text: {
 		fontSize: 14,

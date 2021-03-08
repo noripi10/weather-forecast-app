@@ -26,6 +26,7 @@ export const SearchScreen = ({}) => {
 	// const [searching, setSearching] = useState(false);
 	const [locationInfo, setLocationInfo] = useState(null);
 	const [currentCoordinate, setCurrentCoordinate] = useState(gifuStation);
+	const [refreshing, setRefreshing] = useState(false);
 	const preCoordinateRef = useRef(null);
 	const { dark, colors } = useTheme();
 
@@ -37,20 +38,22 @@ export const SearchScreen = ({}) => {
 					currentCoordinate.longitude === preCoordinateRef.current.longitude
 				) {
 					Alert.alert('前回検索と同じ位置です');
+					setRefreshing(false);
 					return false;
 				}
 			}
 
-			// setSearching(true);
-			const info = await getMarkerLocationInfo(currentCoordinate);
+			setRefreshing(true);
 
+			const info = await getMarkerLocationInfo(currentCoordinate);
 			preCoordinateRef.current = { ...currentCoordinate, time: new Date() };
 			setLocationInfo(info);
-			// setSearching(false);
 		} catch (err) {
 			// console.log({ err });
 			// alert(JSON.stringify(err));
 			Alert.alert('検索エラー');
+		} finally {
+			setRefreshing(false);
 		}
 	};
 
@@ -139,12 +142,7 @@ export const SearchScreen = ({}) => {
 						/>
 					</View>
 					<Card.Divider />
-					<View
-						style={[
-							styles.cardItemContainer,
-							{ height: '80%', flexDirection: 'column' },
-						]}
-					>
+					<View style={styles.cardItemContainer}>
 						<View style={styles.listTitle}>
 							<Text style={[styles.date, { color: colors.text }]}>日時</Text>
 							<View style={{ width: '5%' }}></View>
@@ -158,6 +156,7 @@ export const SearchScreen = ({}) => {
 						</View>
 						{locationInfo && locationInfo.forecastLater ? (
 							<FlatList
+								style={{ flex: 0.9 }}
 								data={locationInfo.forecastLater || []}
 								keyExtractor={(item) => item.dt_txt}
 								renderItem={(item, index) => ForecastItem(item, index)}
@@ -166,6 +165,12 @@ export const SearchScreen = ({}) => {
 										<Divider />
 									</View>
 								)}
+								// refreshControl={
+								// 	<RefreshControl
+								// 		refreshing={refreshing}
+								// 		onRefresh={() => getMakerLocation()}
+								// 	/>
+								// }
 							/>
 						) : (
 							<View style={styles.noListContainer}>
@@ -197,7 +202,11 @@ const styles = StyleSheet.create({
 		width: '98%',
 		height: '42%',
 		position: 'absolute',
-		bottom: 26,
+		bottom: 22,
+	},
+	cardItemContainer: {
+		height: '82%',
+		flexDirection: 'column',
 	},
 	renderItemContainer: {
 		width: '100%',
@@ -207,10 +216,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	listTitle: {
-		flex: 1,
+		flex: 0.1,
 		width: '100%',
 		flexDirection: 'row',
-		height: 20,
 	},
 	date: {
 		width: '35%',

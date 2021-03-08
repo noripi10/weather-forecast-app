@@ -33,7 +33,6 @@ export const RouteNavigator = () => {
 				setUser(null);
 			}
 		});
-
 		getStorage('theme')
 			.then((theme) => {
 				setTheme(theme || '');
@@ -41,7 +40,6 @@ export const RouteNavigator = () => {
 			.catch((err) => {
 				console.log({ err });
 			});
-
 		return () => {
 			unsubscribe();
 		};
