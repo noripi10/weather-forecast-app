@@ -202,9 +202,10 @@ const styles = StyleSheet.create({
 		width: '98%',
 		height: '42%',
 		position: 'absolute',
-		bottom: 22,
+		bottom: 10,
 	},
 	cardItemContainer: {
+		position: 'relative',
 		height: '82%',
 		flexDirection: 'column',
 	},
@@ -240,5 +241,7 @@ const styles = StyleSheet.create({
 	noListContainer: {
 		flex: 1,
 		alignSelf: 'center',
+		position: 'absolute',
+		top: '50%',
 	},
 });

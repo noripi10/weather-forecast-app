@@ -83,7 +83,16 @@ export const signOut = async () => {
 };
 
 export const passwordReset = async (email) => {
-	await auth.sendPasswordResetEmail(email);
+	auth
+		.sendPasswordResetEmail(email)
+		.then(() => {
+			alert('送信完了しました。再設定後ログイン処理を行って下さい');
+		})
+		.catch(() => {
+			alert(
+				'送信に失敗しました。お手数ですが、しばらく時間をおいてから行って下さい'
+			);
+		});
 };
 
 export default firebase;

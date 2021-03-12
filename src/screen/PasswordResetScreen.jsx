@@ -6,8 +6,9 @@ import {
 	Text,
 	TouchableOpacity,
 	Alert,
+	AlertButton,
 } from 'react-native';
-import { loginWithEmail } from '../lib/firebase';
+import { passwordReset } from '../lib/firebase';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
@@ -15,25 +16,47 @@ import { FormInput } from '../component/FormInput';
 import { FeatherIcon } from '../component/FeatherIcon';
 import { registerCheck } from '../util/common';
 
-export const LoginScreen = ({}) => {
+export const PasswordResetScreen = ({}) => {
 	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 
 	const { colors } = useTheme();
 	const navigation = useNavigation();
 
-	const handleLogin = async () => {
-		const check = registerCheck(email, password, password);
-		if (!check.res) {
-			Alert.alert(check.err);
+	const handleResetMailSend = async () => {
+		const { res } = registerCheck(email);
+		if (!res) {
+			Alert.alert('メールアドレスを正しく入力して下さい');
 			return false;
 		}
-		await loginWithEmail(email, password);
+
+		const okButton = {
+			text: 'はい',
+			onPress: async () => await passwordReset(email),
+			style: 'default',
+		};
+		const cancelButton = {
+			text: 'いいえ',
+			onPress: async () => false,
+			style: 'cancel',
+		};
+		Alert.alert(
+			'入力内容確認',
+			`${email}へパスワードリセットメールを送信ますか？`,
+			[okButton, cancelButton]
+		);
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.inputContainer}>
+				<View>
+					<Text style={{ color: colors.text, textAlign: 'left' }}>
+						入力いただいたEmailアドレスにパスワード再設定メールが送信されます。
+					</Text>
+					<Text style={{ color: colors.text, textAlign: 'left' }}>
+						Emailアドレスを入力し送信を押して下さい
+					</Text>
+				</View>
 				<FormInput
 					description="ユーザーID"
 					placeholder="Email"
@@ -44,30 +67,13 @@ export const LoginScreen = ({}) => {
 					onChangeText={(text) => setEmail(text)}
 					color={colors.text}
 				/>
-				<FormInput
-					description="パスワード"
-					placeholder="Password"
-					leftIcon={<FeatherIcon name="key" />}
-					inputContainer=""
-					paddingLeft={15}
-					secureTextEntry
-					keyboardType="email-address"
-					value={password}
-					onChangeText={(text) => setPassword(text)}
-					color={colors.text}
-				/>
-				<TouchableOpacity onPress={() => navigation.navigate('PasswordReset')}>
-					<Text style={{ color: colorList.grey3 }}>
-						パスワードをお忘れの方はこちら
-					</Text>
-				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonContainer}>
 				<AppButton
-					title="ログイン"
+					title="メール送信"
 					color={colorList.purple}
-					disabled={!email || !password}
-					onPress={() => handleLogin()}
+					disabled={!email}
+					onPress={() => handleResetMailSend()}
 				/>
 				<AppButton
 					title="戻る"
@@ -81,20 +87,20 @@ export const LoginScreen = ({}) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'flex-start',
+		flex: 0.5,
+		justifyContent: 'flex-end',
 		alignItems: 'center',
-		marginBottom: 100,
+		marginTop: 100,
 	},
 	inputContainer: {
-		flex: 4,
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
 		padding: 40,
 	},
 	buttonContainer: {
-		flex: 6,
+		flex: 1,
 		justifyContent: 'flex-start',
 		width: '100%',
 		padding: 20,

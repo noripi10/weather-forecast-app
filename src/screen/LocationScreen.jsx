@@ -10,7 +10,6 @@ import {
 import { FlatList } from 'react-native-gesture-handler';
 import { useTheme } from '@react-navigation/native';
 import { Card, Divider } from 'react-native-elements';
-import LottieView from 'lottie-react-native';
 import * as Linking from 'expo-linking';
 import * as Updates from 'expo-updates';
 import moment from 'moment';
@@ -80,6 +79,7 @@ export const LocationScreen = ({}) => {
 	if (permission === null) {
 		return (
 			<View style={styles.noPermissionContainer}>
+				<Text style={{ color: colors.text }}>許諾確認中...</Text>
 				<ActivityIndicator />
 			</View>
 		);
@@ -185,7 +185,7 @@ export const LocationScreen = ({}) => {
 						<View
 							style={[
 								styles.cardItemContainer,
-								{ height: '89%', flexDirection: 'column' },
+								{ height: '86%', flexDirection: 'column' },
 							]}
 						>
 							<View style={styles.listTitle}>
@@ -219,7 +219,7 @@ export const LocationScreen = ({}) => {
 			<Modal visible={searching} transparent={true}>
 				<View style={styles.modalContainer}>
 					<ActivityIndicator size="large" />
-					<Text>現在地取得中...</Text>
+					<Text style={{ color: colors.text }}>現在地取得中...</Text>
 				</View>
 			</Modal>
 		</View>
