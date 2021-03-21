@@ -68,6 +68,20 @@ export const UserScreen = ({}) => {
 					onChangeText={(newName) => updateUserInfo('userName', newName)}
 				/>
 			</View>
+			<View style={styles.settingContainer}>
+				<Text style={{ color: colors.text }}>プッシュトークンキー</Text>
+				<Input
+					disabled
+					style={{
+						color: colors.text,
+						fontSize: 16,
+						textAlign: 'right',
+						paddingRight: 8,
+					}}
+					containerStyle={{ width: '90%' }}
+					value={user.userInfo && user.userInfo.pushToken}
+				/>
+			</View>
 			<Divider style={[{ color: colorList.divider, width: '90%' }]} />
 			<View style={styles.settingContainer}>
 				<Text style={[{ color: colors.text }]}>ダークモード固定</Text>

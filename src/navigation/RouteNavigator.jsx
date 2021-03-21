@@ -24,10 +24,10 @@ export const RouteNavigator = () => {
 			if (authUser) {
 				getUserDocument(authUser.uid)
 					.then((userInfo) => {
-						setUser({ authUser, userInfo });
+						setUser({ ...authUser, userInfo });
 					})
 					.catch((err) => {
-						setUser({ authUser, userInfo: {} });
+						setUser({ ...authUser, userInfo: {} });
 					});
 			} else {
 				setUser(null);

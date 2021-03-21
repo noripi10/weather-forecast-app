@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { Alert } from 'react-native';
+import { registerForPushNotificationsAsync } from './notification';
 import Env from './Env.json';
 
 if (!firebase.apps.length) {
@@ -45,9 +46,17 @@ export const loginWithEmail = async (email, password) => {
 	}
 };
 
+// authChange際に発動
 export const getUserDocument = async (uid) => {
 	const snapshot = await db.collection('users').doc(uid).get();
 	const data = snapshot.data();
+	// pushTokenキーをセット
+	// token変更などがあり得るので、createUserDocumentではなくここでやる
+	const pushToken = await registerForPushNotificationsAsync();
+	if (!data.pushToken || data.pushToken !== pushToken) {
+		await db.collection('users').doc(uid).set({ pushToken }, { merge: true });
+		data.pushToken = pushToken;
+	}
 	return data;
 };
 
