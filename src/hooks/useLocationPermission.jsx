@@ -6,11 +6,13 @@ export const useLocationPermission = () => {
 
 	useEffect(() => {
 		(async () => {
-			const { status } = await Location.getPermissionsAsync();
+			const { status } = await Location.getForegroundPermissionsAsync();
 			if (status === 'granted') {
 				setPermission(true);
 			} else {
-				const { status: askStatus } = await Location.requestPermissionsAsync();
+				const {
+					status: askStatus,
+				} = await Location.requestForegroundPermissionsAsync();
 				if (askStatus === 'granted') {
 					setPermission(true);
 				} else {

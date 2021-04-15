@@ -24,7 +24,6 @@ export const RouteNavigator = () => {
 			if (authUser) {
 				getUserDocument(authUser)
 					.then((userInfo) => {
-						console.log({ userInfo });
 						setUser({ ...authUser, userInfo });
 					})
 					.catch((err) => {

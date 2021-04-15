@@ -201,14 +201,11 @@ export const LocationScreen = ({}) => {
 							</View>
 							{locationInfo.forecastLater && (
 								<FlatList
+									style={{ flex: 1 }}
 									data={locationInfo.forecastLater || []}
 									keyExtractor={(item) => item.dt_txt}
 									renderItem={(item, index) => ForecastItem(item, index)}
-									ItemSeparatorComponent={() => (
-										<View>
-											<Divider />
-										</View>
-									)}
+									ItemSeparatorComponent={() => <Divider />}
 								/>
 							)}
 						</View>

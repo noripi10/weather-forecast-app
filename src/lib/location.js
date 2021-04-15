@@ -76,7 +76,7 @@ export const getMarkerLocationInfo = async ({ latitude, longitude }) => {
 			longitude +
 			'&appid=' +
 			apiKey;
-		console.log(uri);
+
 		const response = await fetch(uri);
 		const data = await response.json();
 		const { list } = data;
