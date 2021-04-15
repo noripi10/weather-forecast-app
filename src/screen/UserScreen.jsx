@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, SafeAreaView, Switch, Text, StyleSheet } from 'react-native';
-import { Divider, Input } from 'react-native-elements';
+import { Avatar, Divider, Input } from 'react-native-elements';
 import Constants from 'expo-constants';
 import { AdMobBanner } from 'expo-ads-admob';
 import { useTheme } from '@react-navigation/native';
@@ -51,8 +51,23 @@ export const UserScreen = ({}) => {
 		console.log('banner error');
 	};
 
+	const UserAvatar = () => {
+		if (user.photoURL) {
+			return <Avatar rounded source={{ uri: user.photoURL }} size={90} />;
+		} else {
+			return (
+				<Avatar
+					containerStyle={{ backgroundColor: '#aaa' }}
+					rounded
+					icon={{ name: 'user', type: 'font-awesome' }}
+					size={90}
+				/>
+			);
+		}
+	};
 	return (
 		<SafeAreaView style={styles.container}>
+			<View style={styles.avatarContainer}>{UserAvatar()}</View>
 			<View style={styles.settingContainer}>
 				<Text style={{ color: colors.text }}>ユーザー名</Text>
 				<Input
@@ -68,7 +83,7 @@ export const UserScreen = ({}) => {
 					onChangeText={(newName) => updateUserInfo('userName', newName)}
 				/>
 			</View>
-			<View style={styles.settingContainer}>
+			{/* <View style={styles.settingContainer}>
 				<Text style={{ color: colors.text }}>プッシュトークンキー</Text>
 				<Input
 					disabled
@@ -81,7 +96,7 @@ export const UserScreen = ({}) => {
 					containerStyle={{ width: '90%' }}
 					value={user.userInfo && user.userInfo.pushToken}
 				/>
-			</View>
+			</View> */}
 			<Divider style={[{ color: colorList.divider, width: '90%' }]} />
 			<View style={styles.settingContainer}>
 				<Text style={[{ color: colors.text }]}>ダークモード固定</Text>
@@ -121,6 +136,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		width: '100%',
+	},
+	avatarContainer: {
+		marginTop: 16,
 	},
 	settingContainer: {
 		flexDirection: 'row',

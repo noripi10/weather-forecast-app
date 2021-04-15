@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { Alert } from 'react-native';
+import * as Google from 'expo-google-app-auth';
 import { registerForPushNotificationsAsync } from './notification';
 import Env from './Env.json';
 
@@ -20,43 +20,62 @@ export const signInAnonymous = async () => {
 
 export const registerWithEmail = async (email, password) => {
 	try {
-		const userCredential = await auth.createUserWithEmailAndPassword(
-			email,
-			password
-		);
-		const { uid } = userCredential.user;
-		await createUserDocument(uid, email);
+		await auth.createUserWithEmailAndPassword(email, password);
 	} catch (err) {
 		console.log({ err });
-		Alert.alert('認証エラー', 'Emailアドレスまたはパスワードを確認して下さい');
+		alert('Emailアドレスまたはパスワードを確認して下さい');
 	}
 };
 
 export const loginWithEmail = async (email, password) => {
 	try {
-		const userCredential = await auth.signInWithEmailAndPassword(
-			email,
-			password
-		);
-		const { uid } = userCredential.user;
-		await createUserDocument(uid, email);
+		await auth.signInWithEmailAndPassword(email, password);
 	} catch (err) {
 		console.log({ err });
 		Alert.alert('認証エラー', 'Emailアドレスまたはパスワードを確認して下さい');
 	}
 };
 
+export const signInGoogle = async () => {
+	try {
+		const { type, idToken } = await Google.logInAsync(Env.googleConfig);
+		if (type === 'success') {
+			const credential = firebase.auth.GoogleAuthProvider.credential({
+				idToken,
+			});
+			await auth.signInWithCredential(credential);
+		} else {
+			alert('Google認証に失敗しました');
+		}
+	} catch (err) {
+		alert(err);
+	}
+};
+
 // authChange際に発動
-export const getUserDocument = async (uid) => {
+export const getUserDocument = async (user) => {
+	let data = {};
+	const { uid, email, displayName } = user;
+
 	const snapshot = await db.collection('users').doc(uid).get();
-	const data = snapshot.data();
+	if (!snapshot.exists) {
+		data = {
+			userName: displayName || email,
+			createData: firebase.firestore.Timestamp.now(),
+		};
+		await db.collection('users').doc(uid).set(data);
+	} else {
+		data = snapshot.data();
+	}
+
 	// pushTokenキーをセット
 	// token変更などがあり得るので、createUserDocumentではなくここでやる
-	const pushToken = await registerForPushNotificationsAsync();
-	if (!data.pushToken || data.pushToken !== pushToken) {
-		await db.collection('users').doc(uid).set({ pushToken }, { merge: true });
-		data.pushToken = pushToken;
-	}
+	// const pushToken = await registerForPushNotificationsAsync();
+	// if (!data.pushToken || data.pushToken !== pushToken) {
+	// 	await db.collection('users').doc(uid).set({ pushToken }, { merge: true });
+	// 	data.pushToken = pushToken;
+	// }
+
 	return data;
 };
 

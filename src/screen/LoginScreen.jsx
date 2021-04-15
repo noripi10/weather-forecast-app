@@ -7,7 +7,8 @@ import {
 	TouchableOpacity,
 	Alert,
 } from 'react-native';
-import { loginWithEmail } from '../lib/firebase';
+import { SocialIcon } from 'react-native-elements';
+import { loginWithEmail, signInGoogle } from '../lib/firebase';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
@@ -68,6 +69,12 @@ export const LoginScreen = ({}) => {
 					color={colorList.purple}
 					disabled={!email || !password}
 					onPress={() => handleLogin()}
+				/>
+				<SocialIcon
+					title="Googleサインイン"
+					button
+					type="google"
+					onPress={() => signInGoogle()}
 				/>
 				<AppButton
 					title="戻る"

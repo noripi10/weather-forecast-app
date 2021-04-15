@@ -22,8 +22,9 @@ export const RouteNavigator = () => {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((authUser) => {
 			if (authUser) {
-				getUserDocument(authUser.uid)
+				getUserDocument(authUser)
 					.then((userInfo) => {
+						console.log({ userInfo });
 						setUser({ ...authUser, userInfo });
 					})
 					.catch((err) => {

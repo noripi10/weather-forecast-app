@@ -11,8 +11,8 @@
 			"backgroundColor": "#5aa0fc"
 		},
 		"updates": {
-			"fallbackToCacheTimeout": 1000,
-			"checkAutomatically": "ON_LOAD"
+			"fallbackToCacheTimeout": 0,
+			"checkAutomatically": "ON_ERROR_RECOVERY"
 		},
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
