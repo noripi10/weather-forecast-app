@@ -5,7 +5,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
+    "lint-fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
@@ -27,6 +29,7 @@
     "firebase": "8.2.3",
     "lottie-react-native": "3.5.0",
     "moment": "^2.29.1",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
@@ -42,7 +45,12 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "eslint": "^7.27.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.0"
   },
   "private": true
 }

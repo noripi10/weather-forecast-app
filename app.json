@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "ウェザリス",
 		"slug": "weather-forecast-app",
-		"version": "1.0.0",
+		"version": "1.1.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"splash": {
@@ -12,14 +12,14 @@
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0,
-			"checkAutomatically": "ON_ERROR_RECOVERY"
+			"checkAutomatically": "ON_LOAD"
 		},
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
 		"ios": {
 			"supportsTablet": false,
 			"bundleIdentifier": "com.hiroapp.weatherforecast",
-			"buildNumber": "1.0.5",
+			"buildNumber": "1.1.0",
 			"config": {
 				"googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
 			},

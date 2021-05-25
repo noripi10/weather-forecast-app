@@ -1,27 +1,30 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Input } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 export const FormInput = (props) => {
-	const { description, placeholder, color, ...anotherProps } = props;
-	return (
-		<View style={styles.container}>
-			<Text style={styles.description}>{description}</Text>
-			<Input
-				style={{ color: color }}
-				{...anotherProps}
-				placeholder={placeholder}
-			/>
-		</View>
-	);
+  const { description, placeholder, color, ...anotherProps } = props;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.description}>{description}</Text>
+      <Input style={{ color: color }} {...anotherProps} placeholder={placeholder} />
+    </View>
+  );
+};
+
+FormInput.propTypes = {
+  description: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  color: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
-	container: {
-		marginVertical: 10,
-		width: '100%',
-	},
-	description: {
-		paddingLeft: 10,
-	},
+  container: {
+    marginVertical: 10,
+    width: '100%',
+  },
+  description: {
+    paddingLeft: 10,
+  },
 });

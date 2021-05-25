@@ -1,9 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import {
-	DarkTheme,
-	DefaultTheme,
-	NavigationContainer,
-} from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
 import { AppNavigator } from './AppNavigator';
@@ -15,48 +11,47 @@ import { auth, getUserDocument } from '../lib/firebase';
 import { getStorage } from '../lib/storage';
 
 export const RouteNavigator = () => {
-	const { theme, setTheme } = useContext(ThemeContext);
-	const { user, setUser } = useContext(AuthUserContext);
-	const scheme = useColorScheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const { user, setUser } = useContext(AuthUserContext);
+  const scheme = useColorScheme();
 
-	useEffect(() => {
-		const unsubscribe = auth.onAuthStateChanged((authUser) => {
-			if (authUser) {
-				getUserDocument(authUser)
-					.then((userInfo) => {
-						setUser({ ...authUser, userInfo });
-					})
-					.catch((err) => {
-						setUser({ ...authUser, userInfo: {} });
-					});
-			} else {
-				setUser(null);
-			}
-		});
-		getStorage('theme')
-			.then((theme) => {
-				setTheme(theme || '');
-			})
-			.catch((err) => {
-				console.log({ err });
-			});
-		return () => {
-			unsubscribe();
-		};
-	}, []);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        getUserDocument(authUser)
+          .then((userInfo) => {
+            setUser({ ...authUser, userInfo });
+          })
+          .catch(() => {
+            setUser({ ...authUser, userInfo: {} });
+          });
+      } else {
+        setUser(null);
+      }
+    });
+    getStorage('theme')
+      .then((theme) => {
+        setTheme(theme || '');
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+    return () => {
+      unsubscribe();
+    };
+  }, [setUser, setTheme]);
 
-	const absoluteTheme = theme || scheme;
+  const absoluteTheme = theme || scheme;
 
-	return (
-		<AppearanceProvider>
-			<NavigationContainer
-				theme={absoluteTheme === 'dark' ? DarkTheme : DefaultTheme}
-				onStateChange={(state) => {
-					// console.log({ state });
-				}}
-			>
-				{user ? <AppNavigator /> : <AuthNavigator />}
-			</NavigationContainer>
-		</AppearanceProvider>
-	);
+  return (
+    <AppearanceProvider>
+      <NavigationContainer
+        theme={absoluteTheme === 'dark' ? DarkTheme : DefaultTheme}
+        onStateChange={() => {
+          // console.log({ state });
+        }}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AppearanceProvider>
+  );
 };
