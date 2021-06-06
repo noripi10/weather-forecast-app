@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as Location from 'expo-location';
 import { Alert } from 'react-native';
 import Env from './Env.json';

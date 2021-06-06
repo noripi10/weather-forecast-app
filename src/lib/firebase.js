@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -60,10 +61,10 @@ export const getUserDocument = async (user) => {
   const snapshot = await db.collection('users').doc(uid).get();
   if (!snapshot.exists) {
     data = {
-      userName: displayName || email,
+      mail: email,
+      userName: displayName || '',
       createData: firebase.firestore.Timestamp.now(),
     };
-    await db.collection('users').doc(uid).set(data);
   } else {
     data = snapshot.data();
   }
@@ -76,6 +77,7 @@ export const getUserDocument = async (user) => {
   // 	data.pushToken = pushToken;
   // }
 
+  await db.collection('users').doc(uid).set(data);
   return data;
 };
 

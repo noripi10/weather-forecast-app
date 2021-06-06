@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
@@ -20,10 +20,7 @@ export const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   expoClientId: '493640800059-nq5b79n1r24nkg1q9h6oa2kth1lu1u10.apps.googleusercontent.com',
-  //   androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
-  //   iosClientId: '493640800059-mb4kd7mkge43002itphdkteqivch2dgl.apps.googleusercontent.com',
-  //   webClientId: '493640800059-nq5b79n1r24nkg1q9h6oa2kth1lu1u10.apps.googleusercontent.com',
+  // Env.jsonに記載
   // });
 
   const { colors } = useTheme();
