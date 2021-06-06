@@ -1,41 +1,42 @@
 {
-	"expo": {
-		"name": "ウェザリス",
-		"slug": "weather-forecast-app",
-		"version": "1.1.0",
-		"orientation": "portrait",
-		"icon": "./assets/icon.png",
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#5aa0fc"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0,
-			"checkAutomatically": "ON_LOAD"
-		},
-		"assetBundlePatterns": ["**/*"],
-		"userInterfaceStyle": "automatic",
-		"ios": {
-			"supportsTablet": false,
-			"bundleIdentifier": "com.hiroapp.weatherforecast",
-			"buildNumber": "1.1.0",
-			"config": {
-				"googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
-			},
-			"infoPlist": {
-				"CFBundleDevelopmentRegion": "ja_JP",
-				"NSLocationWhenInUseUsageDescription": "現在地の天気を取得するために使用します"
-			}
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			}
-		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		}
-	}
+  "expo": {
+    "name": "ウェザリス",
+    "slug": "weather-forecast-app",
+    "version": "1.1.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#5aa0fc"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.hiroapp.weatherforecast",
+      "buildNumber": "1.1.1",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-7379270123809470~6132853802"
+      },
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "ja_JP",
+        "NSLocationWhenInUseUsageDescription": "現在地の天気を取得するために使用します",
+        "NSUserTrackingUsageDescription": "広告のパーソナライズのみを目的として使用され、表示される広告が増えることはありません"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
 }

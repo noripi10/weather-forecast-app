@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, SafeAreaView, Switch, Text, StyleSheet } from 'react-native';
 import { Avatar, Divider, Input } from 'react-native-elements';
 import { AdMobBanner } from 'expo-ads-admob';
@@ -8,7 +8,7 @@ import { AppButton } from '../component/AppButton';
 import colorList from '../lib/colorList';
 import { AuthUserContext } from '../lib/provider/AuthUserProvider';
 import { ThemeContext } from '../lib/provider/ThemeProvider';
-import { setStorage } from '../lib/storage';
+import { getStorage, setStorage } from '../lib/storage';
 import firebase, { signOut, updateUserDocument } from '../lib/firebase';
 
 // const testID = 'ca-app-pub-3940256099942544/2934735716';
@@ -20,6 +20,7 @@ export const UserScreen = () => {
   const { user, setUser } = useContext(AuthUserContext);
   const { theme, setTheme } = useContext(ThemeContext);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [hasTracking, setTracking] = useState(false);
   const { colors } = useTheme();
 
   const toggleSwitch = (val) => {
@@ -64,6 +65,13 @@ export const UserScreen = () => {
       );
     }
   };
+
+  useEffect(() => {
+    getStorage('tracking')
+      .then((tracking) => setTracking(tracking))
+      .catch(() => setTracking(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>{UserAvatar()}</View>
@@ -112,15 +120,15 @@ export const UserScreen = () => {
         <AppButton title='ログアウト' color={colorList.darkBlue} onPress={() => handleSignOut()} />
       </View>
       <AdMobBanner
-        bannerSize='fullBanner'
+        bannerSize='largeBanner'
         adUnitID={
           // eslint-disable-next-line no-undef
           __DEV__
             ? 'ca-app-pub-3940256099942544/2934735716' // テスト広告
             : 'ca-app-pub-7379270123809470/7717398215'
         }
-        servePersonalizedAds
         onDidFailToReceiveAdWithError={bannerError}
+        servePersonalizedAds={hasTracking}
       />
     </SafeAreaView>
   );

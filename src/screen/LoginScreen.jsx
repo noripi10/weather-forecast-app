@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import colorList from '../lib/colorList';
-import { loginWithEmail, signInGoogle } from '../lib/firebase';
+
 import { AppButton } from '../component/AppButton';
 import { FormInput } from '../component/FormInput';
 import { FeatherIcon } from '../component/FeatherIcon';
+
 import { registerCheck } from '../util/common';
+import { loginWithEmail, signInGoogle } from '../lib/firebase';
+import colorList from '../lib/colorList';
+
+// import * as WebBrowser from 'expo-web-browser';
+// import * as Google from 'expo-auth-session/providers/google';
+// WebBrowser.maybeCompleteAuthSession();
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   expoClientId: '493640800059-nq5b79n1r24nkg1q9h6oa2kth1lu1u10.apps.googleusercontent.com',
+  //   androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+  //   iosClientId: '493640800059-mb4kd7mkge43002itphdkteqivch2dgl.apps.googleusercontent.com',
+  //   webClientId: '493640800059-nq5b79n1r24nkg1q9h6oa2kth1lu1u10.apps.googleusercontent.com',
+  // });
 
   const { colors } = useTheme();
   const navigation = useNavigation();
@@ -24,6 +37,12 @@ export const LoginScreen = () => {
     }
     await loginWithEmail(email, password);
   };
+
+  // useEffect(() => {
+  //   if (response?.type === 'success') {
+  //     console.log({ response });
+  //   }
+  // }, [response]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +80,22 @@ export const LoginScreen = () => {
           disabled={!email || !password}
           onPress={() => handleLogin()}
         />
-        <SocialIcon title='Googleサインイン' button type='google' onPress={() => signInGoogle()} />
+        <SocialIcon
+          title='Googleサインイン'
+          button
+          type='google'
+          onPress={() => {
+            signInGoogle();
+          }}
+        />
+        {/* <AppButton
+          title='Googleログイン'
+          color={colorList.purple}
+          onPress={() => {
+            promptAsync();
+          }}
+          disabled={!request}
+        /> */}
         <AppButton title='戻る' color={colorList.darkBlue} onPress={() => navigation.goBack()} />
       </View>
     </SafeAreaView>
