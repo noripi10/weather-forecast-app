@@ -50,6 +50,7 @@ export const LoginScreen = () => {
           leftIcon={<FeatherIcon name='mail' />}
           paddingLeft={15}
           keyboardType='email-address'
+          autoCapitalize='none'
           value={email}
           onChangeText={(text) => setEmail(text)}
           color={colors.text}
@@ -62,6 +63,7 @@ export const LoginScreen = () => {
           paddingLeft={15}
           secureTextEntry
           keyboardType='email-address'
+          autoCapitalize='none'
           value={password}
           onChangeText={(text) => setPassword(text)}
           color={colors.text}

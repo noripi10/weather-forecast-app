@@ -34,6 +34,7 @@ export const RegisterScreen = () => {
           leftIcon={<FeatherIcon name='mail' />}
           paddingLeft={15}
           keyboardType='email-address'
+          autoCapitalize='none'
           onChangeText={(text) => setEmail(text)}
           color={colors.text}
         />
@@ -45,6 +46,7 @@ export const RegisterScreen = () => {
           paddingLeft={15}
           secureTextEntry
           keyboardType='default'
+          autoCapitalize='none'
           onChangeText={(text) => setPassword(text)}
           color={colors.text}
         />
