@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { View, SafeAreaView, Switch, Text, StyleSheet } from 'react-native';
 import { Avatar, Divider, Input } from 'react-native-elements';
 import { AdMobBanner } from 'expo-ads-admob';
@@ -51,7 +51,7 @@ export const UserScreen = () => {
     console.log('banner error');
   };
 
-  const UserAvatar = () => {
+  const UserAvatar = useMemo(() => {
     if (user.photoURL) {
       return <Avatar rounded source={{ uri: user.photoURL }} size={90} />;
     } else {
@@ -64,7 +64,7 @@ export const UserScreen = () => {
         />
       );
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     getStorage('tracking')

@@ -18,8 +18,8 @@ export const WelcomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={{ color: theme.colors.text }} h4>
-          ウェザリス
+        <Text style={{ color: theme.colors.text, textAlign: 'center' }} h4>
+          {'ウェザリス\n~ weather forecast app ~'}
         </Text>
       </View>
       <View style={styles.lottieContainer}>
@@ -46,19 +46,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginBottom: 100,
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    // position: 'absolute',
-    // top: '15%',
   },
   lottieContainer: {
     justifyContent: 'center',
     alignContent: 'center',
-    // position: 'absolute',
-    // top: '30%',
   },
   lottie: {
     height: 300,

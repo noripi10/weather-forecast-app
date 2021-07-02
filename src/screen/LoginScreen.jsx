@@ -8,7 +8,7 @@ import { FormInput } from '../component/FormInput';
 import { FeatherIcon } from '../component/FeatherIcon';
 
 import { registerCheck } from '../util/common';
-import { loginWithEmail, signInGoogle } from '../lib/firebase';
+import { loginWithEmail, signInGoogle, signInFacebook } from '../lib/firebase';
 import colorList from '../lib/colorList';
 
 // import * as WebBrowser from 'expo-web-browser';
@@ -71,14 +71,17 @@ export const LoginScreen = () => {
         <TouchableOpacity onPress={() => navigation.navigate('PasswordReset')}>
           <Text style={{ color: colorList.grey3 }}>パスワードをお忘れの方はこちら</Text>
         </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            title='ログイン'
+            color={colorList.purple}
+            disabled={!email || !password}
+            onPress={() => handleLogin()}
+          />
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <AppButton
-          title='ログイン'
-          color={colorList.purple}
-          disabled={!email || !password}
-          onPress={() => handleLogin()}
-        />
+
+      <View style={styles.socialButtonContainer}>
         <SocialIcon
           title='Googleサインイン'
           button
@@ -87,14 +90,8 @@ export const LoginScreen = () => {
             signInGoogle();
           }}
         />
-        {/* <AppButton
-          title='Googleログイン'
-          color={colorList.purple}
-          onPress={() => {
-            promptAsync();
-          }}
-          disabled={!request}
-        /> */}
+
+        <SocialIcon title='Facebookサインイン' button type='facebook' onPress={() => signInFacebook()} />
         <AppButton title='戻る' color={colorList.darkBlue} onPress={() => navigation.goBack()} />
       </View>
     </SafeAreaView>
@@ -109,13 +106,19 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   inputContainer: {
-    flex: 4,
+    flex: 5,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    padding: 40,
+    padding: 20,
   },
   buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    width: '100%',
+    margin: 8,
+  },
+  socialButtonContainer: {
     flex: 6,
     justifyContent: 'flex-start',
     width: '100%',

@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
 // import { registerForPushNotificationsAsync } from './notification';
 import Env from './Env.json';
 
@@ -47,6 +48,21 @@ export const signInGoogle = async () => {
       await auth.signInWithCredential(credential);
     } else {
       alert('Google認証に失敗しました');
+    }
+  } catch (err) {
+    alert(err);
+  }
+};
+
+export const signInFacebook = async () => {
+  try {
+    await Facebook.initializeAsync(Env.facebookConfig);
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permission: ['public-profile'],
+    });
+    if (type === 'success') {
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      await auth.signInWithCredential(credential);
     }
   } catch (err) {
     alert(err);
