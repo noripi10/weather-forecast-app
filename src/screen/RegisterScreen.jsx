@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 40,
+    paddingTop: 80,
   },
   buttonContainer: {
     flex: 6,

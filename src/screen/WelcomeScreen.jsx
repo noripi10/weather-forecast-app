@@ -18,7 +18,7 @@ export const WelcomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={{ color: theme.colors.text, textAlign: 'center' }} h4>
+        <Text style={[styles.title, { color: theme.colors.text }]} h4>
           {'ウェザリス\n~ weather forecast app ~'}
         </Text>
       </View>
@@ -62,5 +62,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     padding: 20,
+  },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'Caveat-Regular',
   },
 });

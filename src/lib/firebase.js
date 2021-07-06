@@ -4,8 +4,9 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
-// import { registerForPushNotificationsAsync } from './notification';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import Env from './Env.json';
+// import { registerForPushNotificationsAsync } from './notification';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(Env.firebaseConfig);
@@ -64,6 +65,25 @@ export const signInFacebook = async () => {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       await auth.signInWithCredential(credential);
     }
+  } catch (err) {
+    alert(err);
+  }
+};
+
+export const signInApple = async () => {
+  try {
+    const { identityToken } = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+    });
+
+    const provider = new firebase.auth.OAuthProvider('apple.com');
+    const credential = provider.credential({
+      idToken: identityToken,
+    });
+    await auth.signInWithCredential(credential);
   } catch (err) {
     alert(err);
   }

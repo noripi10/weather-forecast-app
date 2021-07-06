@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert, Platform } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 import { AppButton } from '../component/AppButton';
 import { FormInput } from '../component/FormInput';
 import { FeatherIcon } from '../component/FeatherIcon';
 
 import { registerCheck } from '../util/common';
-import { loginWithEmail, signInGoogle, signInFacebook } from '../lib/firebase';
+import { loginWithEmail, signInGoogle, signInFacebook, signInApple } from '../lib/firebase';
 import colorList from '../lib/colorList';
 
 // import * as WebBrowser from 'expo-web-browser';
@@ -16,6 +17,7 @@ import colorList from '../lib/colorList';
 // WebBrowser.maybeCompleteAuthSession();
 
 export const LoginScreen = () => {
+  const [isAppleSignIn, setAppleSignIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,11 +37,11 @@ export const LoginScreen = () => {
     await loginWithEmail(email, password);
   };
 
-  // useEffect(() => {
-  //   if (response?.type === 'success') {
-  //     console.log({ response });
-  //   }
-  // }, [response]);
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      AppleAuthentication.isAvailableAsync().then(() => setAppleSignIn(true));
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,26 +74,17 @@ export const LoginScreen = () => {
           <Text style={{ color: colorList.grey3 }}>パスワードをお忘れの方はこちら</Text>
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
-          <AppButton
-            title='ログイン'
-            color={colorList.purple}
-            disabled={!email || !password}
-            onPress={() => handleLogin()}
-          />
+          <AppButton title='ログイン' color={colorList.purple} disabled={!email || !password} onPress={handleLogin} />
         </View>
       </View>
 
       <View style={styles.socialButtonContainer}>
-        <SocialIcon
-          title='Googleサインイン'
-          button
-          type='google'
-          onPress={() => {
-            signInGoogle();
-          }}
-        />
+        <SocialIcon title='Googleサインイン' button type='google' onPress={signInGoogle} />
+        <SocialIcon title='Facebookサインイン' button type='facebook' onPress={signInFacebook} />
+        {isAppleSignIn && (
+          <SocialIcon style={styles.appleButton} title='Appleサインイン' button type='apple' onPress={signInApple} />
+        )}
 
-        <SocialIcon title='Facebookサインイン' button type='facebook' onPress={() => signInFacebook()} />
         <AppButton title='戻る' color={colorList.darkBlue} onPress={() => navigation.goBack()} />
       </View>
     </SafeAreaView>
@@ -111,6 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 20,
+    paddingTop: 80,
   },
   buttonContainer: {
     justifyContent: 'center',
@@ -123,5 +117,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
     padding: 20,
+  },
+  appleButton: {
+    borderWidth: 0.4,
   },
 });
