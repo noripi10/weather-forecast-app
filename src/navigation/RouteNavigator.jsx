@@ -49,6 +49,7 @@ export const RouteNavigator = () => {
     setStorage('tracking', tracking);
   }, [tracking]);
 
+  // 認証ユーザーの変更監視
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {

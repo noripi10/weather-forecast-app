@@ -43,9 +43,7 @@ export const signInGoogle = async () => {
   try {
     const { type, idToken } = await Google.logInAsync(Env.googleConfig);
     if (type === 'success') {
-      const credential = firebase.auth.GoogleAuthProvider.credential({
-        idToken,
-      });
+      const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
       await auth.signInWithCredential(credential);
     } else {
       alert('Google認証に失敗しました');
@@ -87,6 +85,10 @@ export const signInApple = async () => {
   } catch (err) {
     alert(err);
   }
+};
+
+export const getCurrentUser = () => {
+  return firebase.auth().currentUser;
 };
 
 // authChange際に発動
@@ -154,6 +156,52 @@ export const passwordReset = async (email) => {
     .catch(() => {
       alert('送信に失敗しました。お手数ですが、しばらく時間をおいてから行って下さい');
     });
+};
+
+export const roomInit = async (address) => {
+  // ログインUID
+  const { uid: userUid, displayName } = await getCurrentUser();
+
+  // roomが存在するか確認と作成処理
+  let roomId = '';
+  const roomSnapshot = await db.collection('rooms').where('address', '==', address).get();
+  roomSnapshot.forEach((doc) => {
+    roomId = doc.id;
+  });
+
+  if (!roomId) {
+    const createdAt = firebase.firestore.Timestamp.now();
+    const docRef = db.collection('rooms').doc();
+    roomId = docRef.id;
+    await docRef.set({ address, createdAt });
+    await docRef.collection('chats').add({
+      _id: roomId,
+      text: '天気情報を入力して下さい',
+      createdAt,
+      user: {
+        _id: 'system',
+        name: 'system',
+      },
+    });
+  }
+
+  // チャット情報取得
+  const chatsRef = db.collection('rooms').doc(roomId).collection('chats');
+  const chatsSnapShot = await chatsRef.orderBy('createdAt', 'desc').limit(50).get();
+  const initChats = chatsSnapShot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
+
+  // ログインUID、roomId、チャット一覧を返却
+  return { userUid, displayName, roomId, initChats };
+};
+
+export const sendChat = async (roomId, chat) => {
+  const ref = db.collection('rooms').doc(roomId).collection('chats').doc();
+
+  await ref.set({
+    ...chat,
+  });
 };
 
 export default firebase;

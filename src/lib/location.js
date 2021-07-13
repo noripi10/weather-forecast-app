@@ -5,6 +5,7 @@ import Env from './Env.json';
 // import sample_forecast from './sample_forecast.json';
 import moment from 'moment';
 
+const endPoint = 'http://geoapi.heartrails.com/api/json?method=suggest&matching=like&keyword=';
 const apiKey = Env.openWeatherConfig.apiKey;
 
 export const getLocationInfo = async () => {
@@ -92,5 +93,19 @@ export const getMarkerLocationInfo = async ({ latitude, longitude }) => {
   } catch (err) {
     alert({ err });
     return false;
+  }
+};
+
+export const getLocations = async (word) => {
+  try {
+    const response = await fetch(endPoint + encodeURIComponent(word));
+    const {
+      response: { location },
+    } = await response.json();
+
+    return location;
+  } catch (error) {
+    console.log({ error });
+    Alert.alert('住所検索に失敗しました');
   }
 };
